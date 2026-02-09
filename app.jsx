@@ -260,12 +260,33 @@ const Contact = () => {
         email: '',
         message: ''
     });
+    const [status, setStatus] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        alert('Thank you for your message! I\'ll get back to you soon.');
-        setFormData({ name: '', email: '', message: '' });
+        setStatus('sending');
+
+        try {
+            const response = await fetch('https://formspree.io/f/xvzbgdra', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                setStatus('success');
+                setFormData({ name: '', email: '', message: '' });
+                alert('Thank you! Your message has been sent successfully. I\'ll get back to you soon!');
+            } else {
+                setStatus('error');
+                alert('Oops! Something went wrong. Please try again or email me directly at ranshang01@gmail.com');
+            }
+        } catch (error) {
+            setStatus('error');
+            alert('Oops! Something went wrong. Please try again or email me directly at ranshang01@gmail.com');
+        }
     };
 
     const handleChange = (e) => {
@@ -339,7 +360,9 @@ const Contact = () => {
                                 required
                             ></textarea>
                         </div>
-                        <button type="submit" className="btn btn-primary">Send Message</button>
+                        <button type="submit" className="btn btn-primary" disabled={status === 'sending'}>
+                            {status === 'sending' ? 'Sending...' : 'Send Message'}
+                        </button>
                     </form>
                 </div>
             </div>
