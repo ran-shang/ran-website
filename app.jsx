@@ -291,7 +291,7 @@ const Contact = () => {
                             opportunities, feel free to reach out!
                         </p>
                         <div className="contact-links">
-                            <a href="mailto:ran.shang@example.com" className="contact-link">
+                            <a href="mailto:ranshang01@gmail.com" className="contact-link">
                                 <span className="link-icon">✉</span>
                                 ranshang01@gmail.com
                             </a>
